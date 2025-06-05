@@ -37,7 +37,15 @@ export class ReservationFormComponent implements OnInit {
   onSubmit() {
     if (this.reservationForm.valid) {
       let reservation: Reservation = this.reservationForm.value;
-      this.ReservationService.addReservation(reservation);
+
+      let id = this.activatedRoute.snapshot.paramMap.get('id');
+      if (id) {
+        //update existing reservation
+        this.ReservationService.updateReservation(id, reservation);
+      } else {
+        //new reservation
+        this.ReservationService.addReservation(reservation);
+      }
       this.router.navigate(['/list']);
     }
   }
